@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -25,13 +25,13 @@ import (
 	"io"
 	"math/rand"
 	"net"
-	"strings"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
-	"github.com/fsn-dev/dcrm-walletService/crypto"
-	"github.com/fsn-dev/dcrm-walletService/p2p/rlp"
+	"github.com/EricBui0512/dcrm-walletService/crypto"
+	"github.com/EricBui0512/dcrm-walletService/p2p/rlp"
 	"github.com/syndtr/goleveldb/leveldb"
 )
 
@@ -51,16 +51,16 @@ var (
 	Xp_changed     = 0
 
 	SDK_groupList map[NodeID]*Group = make(map[NodeID]*Group)
-	groupSDK sync.Mutex
-	groupSDKList []*Node
+	groupSDK      sync.Mutex
+	groupSDKList  []*Node
 
-	groupDbLock   sync.Mutex
-	SelfID = ""
+	groupDbLock sync.Mutex
+	SelfID      = ""
 )
 var (
 	Dcrm_groupMemNum = 0
 	Xp_groupMemNum   = 0
-	SDK_groupNum = 0
+	SDK_groupNum     = 0
 )
 
 const (
@@ -88,7 +88,7 @@ const (
 
 type (
 	findgroup struct {
-		ID NodeID
+		ID         NodeID
 		P2pType    byte
 		Target     NodeID // doesn't need to be an actual public key
 		Expiration uint64
@@ -98,15 +98,15 @@ type (
 
 	Group struct {
 		sync.Mutex
-		ID      NodeID
+		ID NodeID
 		//Gname      string
-		Mode      string // 2/3
-		msg        string
+		Mode string // 2/3
+		msg  string
 		//status        string
-		count      int
-		P2pType    byte
-		Nodes      []RpcNode
-		Type       string // group type: 1+2, 1+1+1
+		count   int
+		P2pType byte
+		Nodes   []RpcNode
+		Type    string // group type: 1+2, 1+1+1
 		//userID      []string
 		Expiration uint64
 		// Ignore additional fields (for forward compatibility).
@@ -152,7 +152,7 @@ func getGroupList(gid NodeID, p2pType int) *Group {
 	return nil
 }
 
-func getGroupSDK(gid NodeID) *Group{
+func getGroupSDK(gid NodeID) *Group {
 	for id, g := range SDK_groupList {
 		//if g.status != "SUCCESS" {
 		//	continue
@@ -262,7 +262,7 @@ func (t *udp) findgroup(gid, toid NodeID, toaddr *net.UDPAddr, target NodeID, p2
 	})
 	//log.Debug("findgroup, t.send", "toaddr", toaddr, "gid", gid, "p2pType", p2pType, "send packet", byte(findgroupPacket), "p2ptype", byte(p2pType))
 	_, errs := t.send(toaddr, byte(findgroupPacket), &findgroup{
-		ID: gid,
+		ID:         gid,
 		P2pType:    byte(p2pType),
 		Target:     target,
 		Expiration: uint64(time.Now().Add(expiration).Unix()),
@@ -326,146 +326,146 @@ func SendToGroupCC(toid NodeID, toaddr *net.UDPAddr, msg string, p2pType int) (s
 // sendgroup sends to group dcrm and waits until
 // the node has reply.
 func (t *udp) sendToGroupCC(toid NodeID, toaddr *net.UDPAddr, msg string, p2pType int) (string, error) {
-       //log.Debug("====  (t *udp) sendToGroupCC()  ====", "p2pType", p2pType)
-       var err error = nil
-       retmsg := ""
-       getCCPacket := getCCPacket(p2pType)
-       number[0]++
-       //log.Debug("sendToGroupCC", "send toaddr: ", toaddr)
-       if len(msg) <= 800 {
-               number[1] = 1
-               number[2] = 1
+	//log.Debug("====  (t *udp) sendToGroupCC()  ====", "p2pType", p2pType)
+	var err error = nil
+	retmsg := ""
+	getCCPacket := getCCPacket(p2pType)
+	number[0]++
+	//log.Debug("sendToGroupCC", "send toaddr: ", toaddr)
+	if len(msg) <= 800 {
+		number[1] = 1
+		number[2] = 1
 		//log.Debug("sendToGroupCC", "getCCPacket", getCCPacket, "byte(getCCPacket)", byte(getCCPacket))
-               _, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
-                       Number:     number,
-                       P2pType:    byte(p2pType),
-                       Msg:        msg,
-                       Expiration: uint64(time.Now().Add(expiration).Unix()),
-               })
+		_, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
+			Number:     number,
+			P2pType:    byte(p2pType),
+			Msg:        msg,
+			Expiration: uint64(time.Now().Add(expiration).Unix()),
+		})
 		if err != nil {
 			fmt.Printf("==== (t *udp) sendMsgToPeer ====, err: %v\n", err)
 		}
-               //log.Debug("dcrm", "number = ", number, "msg(<800) = ", msg)
-       } else if len(msg) > 800 && len(msg) < 1600 {
-               number[1] = 1
-               number[2] = 2
-               _, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
-                       Number:     number,
-                       P2pType:    byte(p2pType),
-                       Msg:        msg[0:800],
-                       Expiration: uint64(time.Now().Add(expiration).Unix()),
-               })
+		//log.Debug("dcrm", "number = ", number, "msg(<800) = ", msg)
+	} else if len(msg) > 800 && len(msg) < 1600 {
+		number[1] = 1
+		number[2] = 2
+		_, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
+			Number:     number,
+			P2pType:    byte(p2pType),
+			Msg:        msg[0:800],
+			Expiration: uint64(time.Now().Add(expiration).Unix()),
+		})
 		if err != nil {
 			fmt.Printf("==== (t *udp) sendMsgToPeer ====, err: %v\n", err)
 		}
-               //log.Debug("send", "msg(> 800):", msg)
-               number[1] = 2
-               number[2] = 2
-               _, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
-                       Number:     number,
-                       P2pType:    byte(p2pType),
-                       Msg:        msg[800:],
-                       Expiration: uint64(time.Now().Add(expiration).Unix()),
-               })
+		//log.Debug("send", "msg(> 800):", msg)
+		number[1] = 2
+		number[2] = 2
+		_, err = t.send(toaddr, byte(getCCPacket), &getdcrmmessage{
+			Number:     number,
+			P2pType:    byte(p2pType),
+			Msg:        msg[800:],
+			Expiration: uint64(time.Now().Add(expiration).Unix()),
+		})
 		if err != nil {
 			fmt.Printf("==== (t *udp) sendMsgToPeer ====, err: %v\n", err)
 		}
-       } else {
-               //log.Error("send, msg size > 1600, sent failed.\n")
-               return "", errors.New("send fail, msg size > 1600")
-       }
-       //errc := t.pending(toid, gotDcrmPacket, func(r interface{}) bool {
-       //      fmt.Printf("dcrm, gotDcrmPacket: %+v\n", r)
-       //      retmsg = r.(*dcrmmessage).Msg
-       //      return true
-       //})
-       //err := <-errc
-       //fmt.Printf("dcrm, retmsg: %+v\n", retmsg)
-       return retmsg, err
+	} else {
+		//log.Error("send, msg size > 1600, sent failed.\n")
+		return "", errors.New("send fail, msg size > 1600")
+	}
+	//errc := t.pending(toid, gotDcrmPacket, func(r interface{}) bool {
+	//      fmt.Printf("dcrm, gotDcrmPacket: %+v\n", r)
+	//      retmsg = r.(*dcrmmessage).Msg
+	//      return true
+	//})
+	//err := <-errc
+	//fmt.Printf("dcrm, retmsg: %+v\n", retmsg)
+	return retmsg, err
 }
 
 func (req *getdcrmmessage) handle(t *udp, from *net.UDPAddr, fromID NodeID, mac []byte) error {
-       //log.Debug("====  (req *getdcrmmessage) handle()  ====")
-       if expired(req.Expiration) {
-               return errExpired
-       }
-       if !t.db.hasBond(fromID) {
-               // No bond exists, we don't process the packet. This prevents
-               // an attack vector where the discovery protocol could be used
-               // to amplify traffic in a DDOS attack. A malicious actor
-               // would send a findnode request with the IP address and UDP
-               // port of the target as the source address. The recipient of
-               // the findnode packet would then send a neighbors packet
-               // (which is a much bigger packet than findnode) to the victim.
-               return errUnknownNode
-       }
-       msgp := req.Msg
-       num := req.Number
-       //log.Debug("dcrm handle", "req.Number", num)
-       if num[2] > 1 {
-               if tmpdcrmmsg.Number[0] == 0 || num[0] != tmpdcrmmsg.Number[0] {
-                       tmpdcrmmsg = &(*req)
-                       //log.Debug("dcrm handle", "tmpdcrmmsg = ", tmpdcrmmsg)
-                       return nil
-               }
-               //log.Debug("dcrm handle", "tmpdcrmmsg.Number = ", tmpdcrmmsg.Number)
-               if tmpdcrmmsg.Number[1] == num[1] {
-                       return nil
-               }
-               var buffer bytes.Buffer
-               if tmpdcrmmsg.Number[1] < num[1] {
-                       buffer.WriteString(tmpdcrmmsg.Msg)
-                       buffer.WriteString(req.Msg)
-               } else {
-                       buffer.WriteString(req.Msg)
-                       buffer.WriteString(tmpdcrmmsg.Msg)
-               }
-               msgp = buffer.String()
-       }
+	//log.Debug("====  (req *getdcrmmessage) handle()  ====")
+	if expired(req.Expiration) {
+		return errExpired
+	}
+	if !t.db.hasBond(fromID) {
+		// No bond exists, we don't process the packet. This prevents
+		// an attack vector where the discovery protocol could be used
+		// to amplify traffic in a DDOS attack. A malicious actor
+		// would send a findnode request with the IP address and UDP
+		// port of the target as the source address. The recipient of
+		// the findnode packet would then send a neighbors packet
+		// (which is a much bigger packet than findnode) to the victim.
+		return errUnknownNode
+	}
+	msgp := req.Msg
+	num := req.Number
+	//log.Debug("dcrm handle", "req.Number", num)
+	if num[2] > 1 {
+		if tmpdcrmmsg.Number[0] == 0 || num[0] != tmpdcrmmsg.Number[0] {
+			tmpdcrmmsg = &(*req)
+			//log.Debug("dcrm handle", "tmpdcrmmsg = ", tmpdcrmmsg)
+			return nil
+		}
+		//log.Debug("dcrm handle", "tmpdcrmmsg.Number = ", tmpdcrmmsg.Number)
+		if tmpdcrmmsg.Number[1] == num[1] {
+			return nil
+		}
+		var buffer bytes.Buffer
+		if tmpdcrmmsg.Number[1] < num[1] {
+			buffer.WriteString(tmpdcrmmsg.Msg)
+			buffer.WriteString(req.Msg)
+		} else {
+			buffer.WriteString(req.Msg)
+			buffer.WriteString(tmpdcrmmsg.Msg)
+		}
+		msgp = buffer.String()
+	}
 
-       go func() {
-               //log.Debug("getmessage", "callEvent msg: ", msgp)
-               //fmt.Printf("getmessage, callMsgEvent msg: %v\n", msgp[100])
-               msgc := callMsgEvent(msgp, int(req.P2pType), fromID.String())
-               //callUpdateOrderCacheEvent(msgp)//for mongo
-               //log.Debug("getmessage", "callEvent retmsg: ", msgc)
-               msg := <-msgc
-               //tmpdcrmmsg.Number = [3]byte{}
-               //t.send(from, gotDcrmPacket, &getdcrmmessage{
-               //log.Debug("getmessage", "send(from", from, "msg", msg)
-               //fmt.Printf("ret callback getmessage, send from: %v, msg: %v, req.P2pType: %v\n", from, msg[:100], req.P2pType)
-               gotpacket := getGotPacket(int(req.P2pType))
-               _, err := t.send(from, byte(gotpacket), &dcrmmessage{
-                       Target:     fromID,
-                       P2pType:    req.P2pType,
-                       Msg:        msg,
-                       Expiration: uint64(time.Now().Add(expiration).Unix()),
-               })
-	       if err != nil {
-               //log.Debug("dcrm handle", "send to from: ", from, ", message: ", msg)
+	go func() {
+		//log.Debug("getmessage", "callEvent msg: ", msgp)
+		//fmt.Printf("getmessage, callMsgEvent msg: %v\n", msgp[100])
+		msgc := callMsgEvent(msgp, int(req.P2pType), fromID.String())
+		//callUpdateOrderCacheEvent(msgp)//for mongo
+		//log.Debug("getmessage", "callEvent retmsg: ", msgc)
+		msg := <-msgc
+		//tmpdcrmmsg.Number = [3]byte{}
+		//t.send(from, gotDcrmPacket, &getdcrmmessage{
+		//log.Debug("getmessage", "send(from", from, "msg", msg)
+		//fmt.Printf("ret callback getmessage, send from: %v, msg: %v, req.P2pType: %v\n", from, msg[:100], req.P2pType)
+		gotpacket := getGotPacket(int(req.P2pType))
+		_, err := t.send(from, byte(gotpacket), &dcrmmessage{
+			Target:     fromID,
+			P2pType:    req.P2pType,
+			Msg:        msg,
+			Expiration: uint64(time.Now().Add(expiration).Unix()),
+		})
+		if err != nil {
+			//log.Debug("dcrm handle", "send to from: ", from, ", message: ", msg)
 			fmt.Printf("dcrm handle, send to target: %v, from: %v, msg(len = %v), err: %v\n", fromID, from, len(msg), err)
-	       }
-       }()
-       return nil
+		}
+	}()
+	return nil
 }
 
 func (req *dcrmmessage) handle(t *udp, from *net.UDPAddr, fromID NodeID, mac []byte) error {
-       //log.Debug("====  (req *dcrmmessage) handle()  ====\n")
-       //log.Debug("dcrmmessage", "handle, req: ", req)
-       //if expired(req.Expiration) {
-       //        return errExpired
-       //}
-       //if !t.handleReply(fromID, gotDcrmPacket, req) {
-       //      return errUnsolicitedReply
-       //}
-       //log.Debug("dcrmmessage", "handle, callReturn req.Msg", req.Msg)
-       fmt.Printf("dcrmmessage, handle, callCCReturn\n")
-       go callCCReturn(req.Msg, int(req.P2pType), fromID.String())
-       return nil
+	//log.Debug("====  (req *dcrmmessage) handle()  ====\n")
+	//log.Debug("dcrmmessage", "handle, req: ", req)
+	//if expired(req.Expiration) {
+	//        return errExpired
+	//}
+	//if !t.handleReply(fromID, gotDcrmPacket, req) {
+	//      return errUnsolicitedReply
+	//}
+	//log.Debug("dcrmmessage", "handle, callReturn req.Msg", req.Msg)
+	fmt.Printf("dcrmmessage, handle, callCCReturn\n")
+	go callCCReturn(req.Msg, int(req.P2pType), fromID.String())
+	return nil
 }
 
 func getGroupInfo(gid NodeID, p2pType int) *Group {
-//	log.Debug("getGroupInfo", "p2pType", p2pType)
+	//	log.Debug("getGroupInfo", "p2pType", p2pType)
 	//groupMemNum := getGroupMemNum(p2pType)
 	groupList := getGroupList(gid, p2pType)
 	fmt.Printf("getGroupInfo, gid: %v, groupList: %v, setgroup: %v, p2pType: %v\n", gid, groupList, setgroup, p2pType)
@@ -477,17 +477,17 @@ func getGroupInfo(gid NodeID, p2pType int) *Group {
 		p.Expiration = uint64(time.Now().Add(expiration).Unix())
 		return p
 	}
-//	log.Warn("getGroupInfo nil")
+	//	log.Warn("getGroupInfo nil")
 	return nil
 }
 
 func InitGroup(groupsNum, nodesNum int) error {
-//	log.Debug("==== InitGroup() ====")
+	//	log.Debug("==== InitGroup() ====")
 	setgroup = 1
 	setgroupNumber = groupsNum
 	SDK_groupNum = nodesNum
 	Dcrm_groupMemNum = nodesNum
-	Xp_groupMemNum   = nodesNum
+	Xp_groupMemNum = nodesNum
 	Dcrm_groupList = &Group{msg: "dcrm", count: 0, Expiration: ^uint64(0)}
 	Xp_groupList = &Group{msg: "dcrm", count: 0, Expiration: ^uint64(0)}
 	RecoverGroupAll(SDK_groupList)
@@ -499,7 +499,7 @@ func InitGroup(groupsNum, nodesNum int) error {
 }
 
 func SendToGroup(gid NodeID, msg string, allNodes bool, p2pType int, gg []*Node) (string, error) {
-//	log.Debug("==== SendToGroup() ====", "p2pType", p2pType)
+	//	log.Debug("==== SendToGroup() ====", "p2pType", p2pType)
 	fmt.Printf("==== SendToGroup() ====, gid: %v, allNodes: %v, p2pType: %v\n", gid, allNodes, p2pType)
 	//gg := getGroupSDK(gid)
 	groupMemNum := 0
@@ -520,15 +520,15 @@ func SendToGroup(gid NodeID, msg string, allNodes bool, p2pType int, gg []*Node)
 		fmt.Printf("Not found gid(%v) from local, from bootnode ...\n", gid)
 		bn := Table4group.nursery[0]
 		if bn == nil {
-//			log.Warn("SendToGroup(), bootnode is nil\n")
+			//			log.Warn("SendToGroup(), bootnode is nil\n")
 			return "", errors.New("SendToGroup, bootnode is nil")
 		}
 		ipa := &net.UDPAddr{IP: bn.IP, Port: int(bn.UDP)}
 		g = GetGroup(gid, bn.ID, ipa, bn.ID, p2pType)
 		groupMemNum := getGroupMemNum(p2pType)
-//		log.Debug("==== SendToGroup() ====", "GetGroup", g, "groupMemNum", groupMemNum)
+		//		log.Debug("==== SendToGroup() ====", "GetGroup", g, "groupMemNum", groupMemNum)
 		if g == nil || len(g) != groupMemNum {
-//			log.Warn("SendToGroup(), group is nil\n")
+			//			log.Warn("SendToGroup(), group is nil\n")
 			fmt.Printf("SendToGroup(), group is nil or wrong len\n")
 			return "", errors.New("SendToGroup(), group is nil or wrong len")
 		}
@@ -556,7 +556,7 @@ func SendToGroup(gid NodeID, msg string, allNodes bool, p2pType int, gg []*Node)
 		}
 		sent[i] = r + 1
 		i += 1
-//		log.Debug("sendToDcrmGroup", "group[", r, "]", g[r])
+		//		log.Debug("sendToDcrmGroup", "group[", r, "]", g[r])
 		n := g[r]
 		if n.ID.String() == GetLocalID().String() {
 			go SendToMyselfAndReturn(n.ID.String(), msg, p2pType)
@@ -565,7 +565,7 @@ func SendToGroup(gid NodeID, msg string, allNodes bool, p2pType int, gg []*Node)
 			//err := Table4group.net.ping(n.ID, ipa)
 			//pingErrorCount += 1
 			//if err != nil {
-//			//	log.Debug("sendToDcrmGroup, err", "group[", r, "]", g[r])
+			//			//	log.Debug("sendToDcrmGroup, err", "group[", r, "]", g[r])
 			//	fmt.Printf("SendToGroup, ping(n.ID: %v, ipa: %v) error\n", n.ID, ipa)
 			//	retMsg = fmt.Sprintf("%v; SendToGroup, ping(n.ID: %v, ipa: %v) error", retMsg, n.ID, ipa)
 			//	continue
@@ -596,7 +596,7 @@ func PingNode(id NodeID, ip net.IP, port int) error {
 }
 
 func GetGroup(gid, id NodeID, addr *net.UDPAddr, target NodeID, p2pType int) []*Node {
-//	log.Debug("GetGroup", "gid", gid, "id", id, "addr", addr, "target", target, "p2pType", p2pType)
+	//	log.Debug("GetGroup", "gid", gid, "id", id, "addr", addr, "target", target, "p2pType", p2pType)
 	if SDK_groupList != nil && SDK_groupList[gid] != nil {
 		nodes := make([]*Node, 0, bucketSize)
 		for _, rn := range SDK_groupList[gid].Nodes {
@@ -611,7 +611,7 @@ func GetGroup(gid, id NodeID, addr *net.UDPAddr, target NodeID, p2pType int) []*
 		return nodes
 	}
 	g, _ := Table4group.net.findgroup(gid, id, addr, target, p2pType)
-//	log.Debug("tab.net.findgroup", "g", g, "err", e)
+	//	log.Debug("tab.net.findgroup", "g", g, "err", e)
 	return g
 }
 
@@ -642,13 +642,13 @@ func sendSDKGroupInfo(groupList *Group, p2pType int) {
 		e := fmt.Sprintf("enode://%v@%v:%v", node.ID, node.IP, node.UDP)
 		enode += e
 		//if bytes.Equal(n.IP, node.IP) == true && n.UDP == node.UDP {
-			ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
-			go SendToPeer(groupList.ID, node.ID, ipa, "", p2pType)
+		ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
+		go SendToPeer(groupList.ID, node.ID, ipa, "", p2pType)
 		//}
 	}
 	//enodes := fmt.Sprintf("%v,%v,%v", groupList.ID, count, enode)
-//	log.Debug("send group to nodes", "group: ", enodes)
-//	log.Warn("send group to nodes", "group: ", enodes)
+	//	log.Debug("send group to nodes", "group: ", enodes)
+	//	log.Warn("send group to nodes", "group: ", enodes)
 }
 
 func sendGroupInfo(groupList *Group, p2pType int) {
@@ -663,20 +663,20 @@ func sendGroupInfo(groupList *Group, p2pType int) {
 		e := fmt.Sprintf("enode://%v@%v:%v", node.ID, node.IP, node.UDP)
 		enode += e
 		//if bytes.Equal(n.IP, node.IP) == true && n.UDP == node.UDP {
-			ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
-			go SendToPeer(groupList.ID, node.ID, ipa, "", p2pType)
+		ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
+		go SendToPeer(groupList.ID, node.ID, ipa, "", p2pType)
 		//}
 	}
 	//enodes := fmt.Sprintf("%v,%v,%v", groupList.ID, count, enode)
-//	log.Debug("send group to nodes", "group: ", enodes)
-//	log.Warn("send group to nodes", "group: ", enodes)
+	//	log.Debug("send group to nodes", "group: ", enodes)
+	//	log.Warn("send group to nodes", "group: ", enodes)
 	if p2pType == Dcrmprotocol_type || p2pType == Sdkprotocol_type {
 		var tmp int = 0
 		for i := 0; i < groupList.count; i++ {
 			node := groupList.Nodes[i]
 			cDgid := fmt.Sprintf("%v", groupList.ID) + "|" + "1dcrmslash1:" + strconv.Itoa(tmp) + "#" + "Init"
 			tmp++
-			go func (node RpcNode, msg string) {
+			go func(node RpcNode, msg string) {
 				ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
 				SendMsgToNode(node.ID, ipa, msg)
 			}(node, cDgid)
@@ -768,7 +768,7 @@ func setGroupSDK(n *Node, replace string, p2pType int) {
 	if setgroup == 0 {
 		return
 	}
-//	log.Debug("==== setGroupSDK() ====", "node", n, "add/replace", replace)
+	//	log.Debug("==== setGroupSDK() ====", "node", n, "add/replace", replace)
 	fmt.Printf("==== setGroupSDK() ====, node: %v, add/replace: %v\n", n, replace)
 	groupSDK.Lock()
 	defer groupSDK.Unlock()
@@ -806,7 +806,7 @@ func setGroupSDK(n *Node, replace string, p2pType int) {
 	}
 }
 
-//send group info
+// send group info
 func setGroupCC(n *Node, replace string, p2pType int) {
 	groupList := getGroupList(NodeID{}, p2pType)
 	groupChanged := getGroupChange(p2pType)
@@ -815,7 +815,7 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 	if setgroup == 0 {
 		return
 	}
-//	log.Debug("==== setGroupCC() ====", "node", n, "add/replace", replace)
+	//	log.Debug("==== setGroupCC() ====", "node", n, "add/replace", replace)
 	groupList.Lock()
 	defer groupList.Unlock()
 	if *groupChanged == 2 {
@@ -836,7 +836,7 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 				}
 			}
 			enodes := fmt.Sprintf("%v,%v", count, enode)
-//			log.Debug("send group to nodes", "group: ", enodes)
+			//			log.Debug("send group to nodes", "group: ", enodes)
 			if p2pType == Dcrmprotocol_type {
 				go callPrivKeyEvent(enodes)
 			}
@@ -849,28 +849,28 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 	//	return
 	//}
 	if replace == "add" {
-//		log.Debug("group add", "groupList.count", groupList.count, "groupMemNum", groupMemNum)
+		//		log.Debug("group add", "groupList.count", groupList.count, "groupMemNum", groupMemNum)
 		if groupList.count >= groupMemNum {
 			groupList.count = groupMemNum
 			return
 		}
-//		log.Debug("connect", "NodeID", n.ID.String())
+		//		log.Debug("connect", "NodeID", n.ID.String())
 		//grouplist.gname = append(groupList.gname, "dddddddddd")
 		groupList.Nodes = append(groupList.Nodes, RpcNode(nodeToRPC(n)))
 		groupList.count++
 		if *groupChanged == 0 {
 			*groupChanged = 1
 		}
-//		log.Debug("group(add)", "node", n)
-//		log.Debug("group", "groupList", groupList)
+		//		log.Debug("group(add)", "node", n)
+		//		log.Debug("group", "groupList", groupList)
 		//}
 	} else if replace == "remove" {
-//		log.Debug("group remove")
+		//		log.Debug("group remove")
 		if groupList.count <= 0 {
 			groupList.count = 0
 			return
 		}
-//		log.Debug("connect", "NodeID", n.ID.String())
+		//		log.Debug("connect", "NodeID", n.ID.String())
 		for i := 0; i < groupList.count; i++ {
 			if groupList.Nodes[i].ID == n.ID {
 				groupList.Nodes = append(groupList.Nodes[:i], groupList.Nodes[i+1:]...)
@@ -878,8 +878,8 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 				if *groupChanged == 0 {
 					*groupChanged = 1
 				}
-//				log.Debug("group(remove)", "node", n)
-//				log.Debug("group", "groupList", groupList)
+				//				log.Debug("group(remove)", "node", n)
+				//				log.Debug("group", "groupList", groupList)
 				break
 			}
 		}
@@ -896,13 +896,13 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 			e := fmt.Sprintf("enode://%v@%v:%v", node.ID, node.IP, node.UDP)
 			enode += e
 			ipa := &net.UDPAddr{IP: node.IP, Port: int(node.UDP)}
-//			log.Debug("send group to node", "group", p2pType, "enode", e)
+			//			log.Debug("send group to node", "group", p2pType, "enode", e)
 			go SendToPeer(NodeID{}, node.ID, ipa, "", p2pType)
 			//TODO get and send privatekey slice
 			//go SendMsgToNode(node.ID, ipa, "0xff00ff")
 		}
 		enodes := fmt.Sprintf("%v,%v", count, enode)
-//		log.Debug("send group to nodes", "group", p2pType, "enodes", enodes)
+		//		log.Debug("send group to nodes", "group", p2pType, "enodes", enodes)
 		if p2pType == Dcrmprotocol_type {
 			go callPrivKeyEvent(enodes)
 		}
@@ -910,9 +910,9 @@ func setGroupCC(n *Node, replace string, p2pType int) {
 	}
 }
 
-//send group info
+// send group info
 func SendMsgToNode(toid NodeID, toaddr *net.UDPAddr, msg string) error {
-//	log.Debug("==== discover.SendMsgToNode() ====", "toid", toid, "toaddr", toaddr, "msg", msg)
+	//	log.Debug("==== discover.SendMsgToNode() ====", "toid", toid, "toaddr", toaddr, "msg", msg)
 	if msg == "" {
 		return nil
 	}
@@ -920,16 +920,16 @@ func SendMsgToNode(toid NodeID, toaddr *net.UDPAddr, msg string) error {
 }
 
 func SendToPeer(gid, toid NodeID, toaddr *net.UDPAddr, msg string, p2pType int) error {
-//	log.Debug("==== SendToPeer() ====", "msg", msg)
+	//	log.Debug("==== SendToPeer() ====", "msg", msg)
 	fmt.Printf("==== SendToPeer() ====, toaddr: %v, msg: %v\n", toaddr, msg)
 	return Table4group.net.sendToPeer(gid, toid, toaddr, msg, p2pType)
 }
 func (t *udp) sendToPeer(gid, toid NodeID, toaddr *net.UDPAddr, msg string, p2pType int) error {
-//	log.Debug("====  (t *udp) sendToPeer()  ====")
-//	log.Warn("====  (t *udp) sendToPeer()  ====", "gid", gid)
+	//	log.Debug("====  (t *udp) sendToPeer()  ====")
+	//	log.Warn("====  (t *udp) sendToPeer()  ====", "gid", gid)
 	fmt.Printf("====  (t *udp) sendToPeer()  ====, gid: %v, toaddr: %v\n", gid, toaddr)
 	req := getGroupInfo(gid, p2pType)
-//	log.Warn("====  (t *udp) sendToPeer()  ====", "req", req)
+	//	log.Warn("====  (t *udp) sendToPeer()  ====", "req", req)
 	fmt.Printf("====  (t *udp) sendToPeer()  ====, toaddr: %v, groupInfo: %v\n", toaddr, req)
 	if req == nil {
 		return nil
@@ -937,7 +937,7 @@ func (t *udp) sendToPeer(gid, toid NodeID, toaddr *net.UDPAddr, msg string, p2pT
 	errc := t.pending(toid, byte(Dcrm_groupInfoPacket), func(r interface{}) bool {
 		return true
 	})
-//	log.Warn("====  (t *udp) sendToPeer()  ====", "sendtoAddress", toaddr)
+	//	log.Warn("====  (t *udp) sendToPeer()  ====", "sendtoAddress", toaddr)
 	_, errt := t.send(toaddr, byte(Dcrm_groupInfoPacket), req)
 	if errt != nil {
 		fmt.Printf("====  (t *udp) sendToPeer()  ====, t.send, toaddr: %v, err: %v\n", toaddr, errt)
@@ -949,32 +949,32 @@ func (t *udp) sendToPeer(gid, toid NodeID, toaddr *net.UDPAddr, msg string, p2pT
 }
 func (req *Group) name() string { return "GROUPMSG/v4" }
 func (req *Group) handle(t *udp, from *net.UDPAddr, fromID NodeID, mac []byte) error {
-//	log.Debug("====  (req *groupmessage) handle()  ====")
+	//	log.Debug("====  (req *groupmessage) handle()  ====")
 	//fmt.Printf("====  (req *groupmessage) handle()  ====, req: %v\n", req)
 	if expired(req.Expiration) {
 		return errExpired
 	}
-//	log.Debug("groupmessage", "req", req)
+	//	log.Debug("groupmessage", "req", req)
 	nodes := make([]*Node, 0, bucketSize)
 	for _, rn := range req.Nodes {
 		n, err := t.nodeFromRPC(from, rpcNode(rn))
 		if err != nil {
-//			log.Trace("Invalid neighbor node received", "ip", rn.IP, "addr", from, "err", err)
+			//			log.Trace("Invalid neighbor node received", "ip", rn.IP, "addr", from, "err", err)
 			continue
 		}
 		nodes = append(nodes, n)
 	}
 
-//	log.Debug("group msg handle", "req.Nodes: ", nodes)
-//	log.Warn("group msg handle", "req.Nodes: ", nodes)
+	//	log.Debug("group msg handle", "req.Nodes: ", nodes)
+	//	log.Warn("group msg handle", "req.Nodes: ", nodes)
 	fmt.Sprintf("group msg handle, callGroupEvent(), req.Nodes: %v\n", nodes)
 	go callGroupEvent(req.ID, req.Mode, nodes, int(req.P2pType), req.Type)
 	return nil
 }
 
-//send msg
+// send msg
 func (t *udp) sendMsgToPeer(toid NodeID, toaddr *net.UDPAddr, msg string) error {
-//	log.Debug("====  (t *udp) sendMsgToPeer()  ====")
+	//	log.Debug("====  (t *udp) sendMsgToPeer()  ====")
 	errc := t.pending(toid, PeerMsgPacket, func(r interface{}) bool {
 		return true
 	})
@@ -992,8 +992,8 @@ func (req *message) name() string { return "MESSAGE/v4" }
 
 func (req *message) handle(t *udp, from *net.UDPAddr, fromID NodeID, mac []byte) error {
 	fmt.Printf("====  (req *message) handle()  ====\n")
-//	log.Debug("\n\n====  (req *message) handle()  ====")
-//	log.Debug("req: %#v\n", req)
+	//	log.Debug("\n\n====  (req *message) handle()  ====")
+	//	log.Debug("req: %#v\n", req)
 	if expired(req.Expiration) {
 		return errExpired
 	}
@@ -1047,7 +1047,7 @@ func callsdkEvent(e interface{}, fromID string) <-chan string {
 	return sdkcallback(e, fromID)
 }
 
-//peer(of DCRM group) receive other peer msg to run dcrm
+// peer(of DCRM group) receive other peer msg to run dcrm
 var dcrmcallback func(interface{}) <-chan string
 
 func RegisterDcrmMsgCallback(callbackfunc func(interface{}) <-chan string) {
@@ -1057,7 +1057,7 @@ func calldcrmEvent(e interface{}) <-chan string {
 	return dcrmcallback(e)
 }
 
-//for mongo
+// for mongo
 var updateOrderCachecallback func(interface{})
 
 func RegisterUpdateOrderCacheCallback(callbackfunc func(interface{})) {
@@ -1076,7 +1076,7 @@ func callsdkReturn(e interface{}, fromID string) {
 	sdkretcallback(e, fromID)
 }
 
-//return
+// return
 var dcrmretcallback func(interface{})
 
 func RegisterDcrmMsgRetCallback(callbackfunc func(interface{})) {
@@ -1086,38 +1086,38 @@ func calldcrmReturn(e interface{}) {
 	dcrmretcallback(e)
 }
 
-//peer(of Xp group) receive other peer msg to run dccp
+// peer(of Xp group) receive other peer msg to run dccp
 var xpcallback func(interface{}) <-chan string
 
 func RegisterXpMsgCallback(callbackfunc func(interface{}) <-chan string) {
-        xpcallback = callbackfunc
+	xpcallback = callbackfunc
 }
 func callxpEvent(e interface{}) <-chan string {
-        return xpcallback(e)
+	return xpcallback(e)
 }
 
-//return
+// return
 var xpretcallback func(interface{})
 
 func RegisterXpMsgRetCallback(callbackfunc func(interface{})) {
-        xpretcallback = callbackfunc
+	xpretcallback = callbackfunc
 }
 func callxpReturn(e interface{}) {
-        xpretcallback(e)
+	xpretcallback(e)
 }
 
 func callCCReturn(e interface{}, p2pType int, fromID string) {
-        switch (p2pType) {
-        case Sdkprotocol_type:
-                callsdkReturn(e, fromID)
-        case Dcrmprotocol_type:
-                calldcrmReturn(e)
-        case Xprotocol_type:
-                callxpReturn(e)
-        }
+	switch p2pType {
+	case Sdkprotocol_type:
+		callsdkReturn(e, fromID)
+	case Dcrmprotocol_type:
+		calldcrmReturn(e)
+	case Xprotocol_type:
+		callxpReturn(e)
+	}
 }
 
-//get private Key
+// get private Key
 var privatecallback func(interface{})
 
 func RegisterSendCallback(callbackfunc func(interface{})) {
@@ -1421,4 +1421,3 @@ func RecoverGroupAll(SdkGroup map[NodeID]*Group) error {
 func NewGroup() *Group {
 	return &Group{}
 }
-

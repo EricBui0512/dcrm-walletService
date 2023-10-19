@@ -26,11 +26,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/event"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discv5"
-	"github.com/fsn-dev/dcrm-walletService/p2p/nat"
-	"github.com/fsn-dev/dcrm-walletService/p2p/netutil"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discv5"
+	"github.com/EricBui0512/dcrm-walletService/p2p/event"
+	"github.com/EricBui0512/dcrm-walletService/p2p/nat"
+	"github.com/EricBui0512/dcrm-walletService/p2p/netutil"
 )
 
 const (
@@ -75,7 +75,7 @@ type Config struct {
 	NoDiscovery bool
 
 	DcrmEnabled bool
-	Nodes   []*discover.Node
+	Nodes       []*discover.Node
 
 	// DiscoveryV5 specifies whether the new topic-discovery based V5 discovery
 	// protocol should be started or not.
@@ -930,7 +930,7 @@ func (srv *Server) runPeer(p *Peer) {
 
 // EnodeInfo represents a short summary of the information known about the host.
 type EnodeInfo struct {
-	Num   int    `json:"num"`
+	Num   int      `json:"num"`
 	Enode []string `json:"enode"` // Unique node identifier (also the encryption key)
 }
 

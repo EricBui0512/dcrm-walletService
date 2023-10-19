@@ -7,20 +7,21 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
  */
 
-package ec2 
+package ec2
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/internal/common/math/random"
-	s256 "github.com/fsn-dev/dcrm-walletService/crypto/secp256k1"
-	"github.com/fsn-dev/dcrm-walletService/crypto/sha3"
 	"math/big"
+
+	s256 "github.com/EricBui0512/dcrm-walletService/crypto/secp256k1"
+	"github.com/EricBui0512/dcrm-walletService/crypto/sha3"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/math/random"
 )
 
 type ZkUProof struct {

@@ -1,14 +1,14 @@
 package evtapi
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/v1"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtconfig"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
+	v1 "github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/v1"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtconfig"
 	"github.com/sirupsen/logrus"
 )
 
 type Instance struct {
-	V1     *v1.Instance
+	V1 *v1.Instance
 }
 
 func New(config *evtconfig.Instance, logger *logrus.Logger) *Instance {

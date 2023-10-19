@@ -26,10 +26,12 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/event"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	//"github.com/fsn-dev/dcrm-walletService/p2p/dcrm"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/event"
+	"github.com/ethereum/go-ethereum/accounts"
+
+	//"github.com/EricBui0512/dcrm-walletService/p2p/dcrm"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 )
 
 // Node is a container on which services can be registered.
@@ -38,7 +40,7 @@ type Node struct {
 	config   *Config
 	accman   *accounts.Manager
 
-	ephemeralKeystore string         // if non-empty, the key directory that will be removed by Stop
+	ephemeralKeystore string // if non-empty, the key directory that will be removed by Stop
 
 	serverConfig p2p.Config
 	server       *p2p.Server // Currently running P2P networking layer
@@ -64,7 +66,6 @@ type Node struct {
 
 	stop chan struct{} // Channel to wait for termination notifications
 	lock sync.RWMutex
-
 }
 
 // New creates a new P2P node, ready for protocol registration.

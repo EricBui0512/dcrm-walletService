@@ -1,12 +1,11 @@
 package transaction
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evttypes"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evttypes"
 
 type EvtActionParam interface {
 	Arguments() *evttypes.ActionArguments
 	Action(binargs string) *evttypes.SimpleAction
 }
-
 
 /*
 ActionName	Domain	Key
@@ -43,4 +42,3 @@ newlock	.lock	name of lock assets proposal
 aprvlock	.lock	name of lock assets proposal
 tryunlock	.lock	name of lock assets proposal
 */
-

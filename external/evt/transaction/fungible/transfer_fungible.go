@@ -1,6 +1,6 @@
 package fungible
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evttypes"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evttypes"
 
 const actionNameTransferFungible = "transferft"
 
@@ -11,7 +11,6 @@ type TransferFungibleParams struct {
 	fungibleId string
 	memo       string
 }
-
 
 func (it *TransferFungibleParams) SetMemo(memo string) *TransferFungibleParams {
 	it.memo = memo

@@ -19,18 +19,18 @@ package node
 import (
 	"reflect"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/event"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/event"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 )
 
 // ServiceContext is a collection of service independent options inherited from
 // the protocol stack, that is passed to all constructors to be optionally used;
 // as well as utility methods to operate on the service environment.
 type ServiceContext struct {
-	config         *Config
-	services       map[reflect.Type]Service // Index of the already constructed services
-	EventMux       *event.TypeMux           // Event multiplexer used for decoupled notifications
+	config   *Config
+	services map[reflect.Type]Service // Index of the already constructed services
+	EventMux *event.TypeMux           // Event multiplexer used for decoupled notifications
 	//AccountManager *accounts.Manager        // Account manager created by the node.
 }
 

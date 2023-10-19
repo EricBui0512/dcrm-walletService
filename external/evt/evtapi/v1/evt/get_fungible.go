@@ -1,8 +1,8 @@
 package evt
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evttypes"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evttypes"
 )
 
 type GetFungibleRequest struct {

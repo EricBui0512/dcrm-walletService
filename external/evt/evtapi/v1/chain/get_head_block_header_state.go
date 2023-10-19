@@ -1,6 +1,6 @@
 package chain
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
 
 type Header struct {
 	Timestamp         string        `json:"timestamp"`

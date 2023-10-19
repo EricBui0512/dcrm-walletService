@@ -19,9 +19,9 @@ package types
 import (
 	"io"
 
-	"github.com/fsn-dev/dcrm-walletService/internal/common"
-	"github.com/fsn-dev/dcrm-walletService/internal/common/hexutil"
-	"github.com/fsn-dev/dcrm-walletService/p2p/rlp"
+	"github.com/EricBui0512/dcrm-walletService/internal/common"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/hexutil"
+	"github.com/EricBui0512/dcrm-walletService/p2p/rlp"
 )
 
 //go:generate gencodec -type Log -field-override logMarshaling -out gen_log_json.go

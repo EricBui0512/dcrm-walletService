@@ -25,11 +25,12 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/EricBui0512/dcrm-walletService/crypto"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/fsn-dev/dcrm-walletService/crypto"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/fsn-dev/dcrm-walletService/node"
 )
 
 // Node represents a node in a simulation network which is created by a
@@ -38,7 +39,6 @@ import (
 // * SimNode    - An in-memory node
 // * ExecNode   - A child process node
 // * DockerNode - A Docker container node
-//
 type Node interface {
 	// Addr returns the node's address (e.g. an Enode URL)
 	Addr() []byte
@@ -209,8 +209,8 @@ type ServiceContext struct {
 	RPCDialer
 
 	//NodeContext *node.ServiceContext
-	Config      *NodeConfig
-	Snapshot    []byte
+	Config   *NodeConfig
+	Snapshot []byte
 }
 
 // RPCDialer is used when initialising services which need to connect to

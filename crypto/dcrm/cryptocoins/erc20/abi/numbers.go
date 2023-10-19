@@ -20,8 +20,8 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/fsn-dev/dcrm-walletService/internal/common"
-	"github.com/fsn-dev/dcrm-walletService/internal/common/math"
+	"github.com/EricBui0512/dcrm-walletService/internal/common"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/math"
 )
 
 var (

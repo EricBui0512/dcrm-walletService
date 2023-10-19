@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/fsn-dev/dcrm-walletService/internal/common"
+	"github.com/EricBui0512/dcrm-walletService/internal/common"
 )
 
 // Genesis hashes to enforce below configs on.
@@ -46,7 +46,7 @@ var (
 		Clique: &CliqueConfig{
 			Period: 5,
 			//Period: 1, //mine-fast
-			Epoch:  30000,
+			Epoch: 30000,
 		},
 	}
 

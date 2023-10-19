@@ -19,7 +19,8 @@ package dcrm
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/fsn-dev/dcrm-walletService/p2p/layer2"
+
+	"github.com/EricBui0512/dcrm-walletService/p2p/layer2"
 )
 
 const (
@@ -62,7 +63,7 @@ func (this *Service) GetEnode() string {
 type GroupInfo struct {
 	Gid    string
 	Mode   string
-	Count int
+	Count  int
 	Enodes []string
 }
 

@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -25,7 +25,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"time"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/config"
+
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
 )
 
 // 钱包连接参数
@@ -50,7 +51,7 @@ type rpcResponse struct {
 	Err    interface{}     `json:"error"`
 }
 
-//连接配置
+// 连接配置
 func NewClient(host string, port int, user, passwd string, useSSL bool) (c *RpcClient, err error) {
 	if len(host) == 0 {
 		err = errors.New("Bad call missing argument host")
@@ -92,7 +93,7 @@ func (c *RpcClient) doTimeoutRequest(timer *time.Timer, req *http.Request) (*htt
 	}
 }
 
-//通信
+// 通信
 func (c *RpcClient) Send(reqJson string) (retJSON string, err error) {
 	connectTimer := time.NewTimer(config.RPCCLIENT_TIMEOUT * time.Second)
 	reqJsonByte := []byte(reqJson)

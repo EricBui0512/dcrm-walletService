@@ -19,17 +19,16 @@ package node
 import (
 	"crypto/ecdsa"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
 
-	"github.com/fsn-dev/dcrm-walletService/internal/common"
-	"github.com/fsn-dev/dcrm-walletService/crypto"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/EricBui0512/dcrm-walletService/crypto"
+	"github.com/EricBui0512/dcrm-walletService/internal/common"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 )
 
 const (
@@ -101,7 +100,7 @@ type Config struct {
 	// clients. Please be aware that CORS is a browser enforced security, it's fully
 	// useless for custom HTTP clients.
 	HTTPCors []string `toml:",omitempty"`
-	
+
 	OrderTest string `toml:",omitempty"`
 
 	// HTTPVirtualHosts is the list of virtual hostnames which are allowed on incoming requests.
@@ -147,7 +146,6 @@ type Config struct {
 	// *WARNING* Only set this if the node is running in a trusted network, exposing
 	// private APIs to untrusted users is a major security risk.
 	WSExposeAll bool `toml:",omitempty"`
-
 }
 
 // IPCEndpoint resolves an IPC endpoint based on a configured value, taking into

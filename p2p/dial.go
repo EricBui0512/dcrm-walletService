@@ -24,8 +24,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/p2p/netutil"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/p2p/netutil"
 )
 
 const (

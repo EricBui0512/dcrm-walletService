@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -20,21 +20,21 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/types"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/types"
 
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/btc"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/eth"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/erc20"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/xrp"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/eos"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/omni"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/trx"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/bch"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/atom"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/evt"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/bnb"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/atom"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/bch"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/bnb"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/btc"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/eos"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/erc20"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/eth"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/evt"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/omni"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/trx"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/xrp"
 
-	config "github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/config"
+	config "github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
 )
 
 var Coinmap map[string]string = make(map[string]string)
@@ -53,38 +53,38 @@ func Init() {
 	bch.BCHInit()
 	evt.EVTInit()
 	trx.TRXInit()
-	erc20.RegisterTokenGetter(func (tokentype string) string {
+	erc20.RegisterTokenGetter(func(tokentype string) string {
 		// TODO ¿¿¿ ???
 		//return erc20.Tokens[tokentype]
-		ret,ok := erc20.Tokens[tokentype]
+		ret, ok := erc20.Tokens[tokentype]
 		if ok {
-		    return ret
+			return ret
 		} else {
-		    return ""
+			return ""
 		}
 	})
-	omni.RegisterPropertyGetter(func (propertyname string) string {
+	omni.RegisterPropertyGetter(func(propertyname string) string {
 		// TODO ¿¿¿ ???
 		//return omni.Properties[propertyname]
-		ret,ok := omni.Properties[propertyname]
+		ret, ok := omni.Properties[propertyname]
 		if ok {
-		    return ret
+			return ret
 		} else {
-		    return ""
+			return ""
 		}
 	})
 }
 
 // only main net coins
-//var Cointypes []string = []string{"ALL","BTC","ETH","XRP","EOS","USDT","ATOM","BCH","TRX","BNB","EVT1","ERC20BNB","ERC20GUSD","ERC20MKR","ERC20HT","ERC20RMBT","EVT1001","BEP2GZX_754"}
-//var Cointypes []string = []string{"ALL","BTC","ETH","ATOM","BCH","TRX","BNB","ERC20BNB","ERC20GUSD","ERC20MKR","ERC20HT","ERC20RMBT","BEP2GZX_754"}  //tmp delete EOS XRP EVT1 EVT1001 USDT
-var Cointypes []string = []string{"ALL","ETH"}  //tmp only left ETH 
+// var Cointypes []string = []string{"ALL","BTC","ETH","XRP","EOS","USDT","ATOM","BCH","TRX","BNB","EVT1","ERC20BNB","ERC20GUSD","ERC20MKR","ERC20HT","ERC20RMBT","EVT1001","BEP2GZX_754"}
+// var Cointypes []string = []string{"ALL","BTC","ETH","ATOM","BCH","TRX","BNB","ERC20BNB","ERC20GUSD","ERC20MKR","ERC20HT","ERC20RMBT","BEP2GZX_754"}  //tmp delete EOS XRP EVT1 EVT1001 USDT
+var Cointypes []string = []string{"ALL", "ETH"} //tmp only left ETH
 //BEP2--->BEP2GZX_754
 
-func IsCoinSupported (cointype string) bool {
-    if cointype == "" {
-	return false
-    }
+func IsCoinSupported(cointype string) bool {
+	if cointype == "" {
+		return false
+	}
 
 	cointype = strings.ToUpper(cointype)
 	if Coinmap[cointype] == "1" {
@@ -96,11 +96,11 @@ func IsCoinSupported (cointype string) bool {
 		}
 
 		if erc20.GetToken != nil && erc20.GetToken(cointype) != "" {
-		    return true
+			return true
 		}
 
 		if omni.GetProperty != nil && omni.GetProperty(cointype) != "" {
-		    return true
+			return true
 		}
 	}
 
@@ -162,7 +162,7 @@ func NewCryptocoinHandler(coinType string) (txHandler CryptocoinHandler) {
 	case "BNB":
 		return bnb.NewBNBHandler()
 	case "USDT":
-		return omni.NewOMNIPropertyHandler("OMNIOmni")  //testnet3测试网中的omni token, 可以代替USDT测试
+		return omni.NewOMNIPropertyHandler("OMNIOmni") //testnet3测试网中的omni token, 可以代替USDT测试
 	default:
 		if IsErc20(coinTypeC) {
 			return erc20.NewERC20TokenHandler(coinTypeC)
@@ -181,19 +181,19 @@ func NewCryptocoinHandler(coinType string) (txHandler CryptocoinHandler) {
 }
 
 func IsEVT(tokentype string) bool {
-	return strings.HasPrefix(tokentype,"EVT")
+	return strings.HasPrefix(tokentype, "EVT")
 }
 
 func IsErc20(tokentype string) bool {
-	return strings.HasPrefix(tokentype,"ERC20")
+	return strings.HasPrefix(tokentype, "ERC20")
 }
 
 func IsOmni(propertyname string) bool {
-	return strings.HasPrefix(propertyname,"OMNI")
+	return strings.HasPrefix(propertyname, "OMNI")
 }
 
 func IsBEP2(tokentype string) bool {
-	return strings.HasPrefix(tokentype,"BEP2")
+	return strings.HasPrefix(tokentype, "BEP2")
 }
 
 func GetMainNetCoin(cointype string) string {

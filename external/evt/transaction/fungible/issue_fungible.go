@@ -1,6 +1,6 @@
 package fungible
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evttypes"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evttypes"
 
 const actionNameIssueFungible = "issuefungible"
 
@@ -10,7 +10,6 @@ type IssueFungibleParams struct {
 	fungibleId string
 	memo       string
 }
-
 
 func (it *IssueFungibleParams) SetMemo(memo string) *IssueFungibleParams {
 	it.memo = memo

@@ -23,8 +23,8 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/EricBui0512/dcrm-walletService/internal/common/hexutil"
 	mapset "github.com/deckarep/golang-set"
-	"github.com/fsn-dev/dcrm-walletService/internal/common/hexutil"
 )
 
 // API describes the set of methods offered over the RPC interface

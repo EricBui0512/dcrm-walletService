@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -21,8 +21,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/fsn-dev/dcrm-walletService/internal/common"
-	"github.com/fsn-dev/dcrm-walletService/internal/common/hexutil"
+	"github.com/EricBui0512/dcrm-walletService/internal/common"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/hexutil"
 )
 
 var _ = (*txdataMarshaling)(nil)

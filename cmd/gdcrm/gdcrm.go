@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -22,13 +22,13 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
-	"github.com/fsn-dev/dcrm-walletService/crypto"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/p2p/layer2"
-	"github.com/fsn-dev/dcrm-walletService/p2p/nat"
-	rpcdcrm "github.com/fsn-dev/dcrm-walletService/rpc/dcrm"
+	"github.com/EricBui0512/dcrm-walletService/crypto"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/p2p/layer2"
+	"github.com/EricBui0512/dcrm-walletService/p2p/nat"
+	rpcdcrm "github.com/EricBui0512/dcrm-walletService/rpc/dcrm"
 	"gopkg.in/urfave/cli.v1"
 	//"github.com/fusion/go-fusion/crypto/dcrm/dev"
 )
@@ -43,13 +43,13 @@ func main() {
 
 func StartDcrm(c *cli.Context) {
 	startP2pNode(nil)
-	time.Sleep(time.Duration(5)*time.Second)
+	time.Sleep(time.Duration(5) * time.Second)
 	rpcdcrm.RpcInit(rpcport)
 	dcrm.Start()
 	select {} // note for server, or for client
 }
 
-//========================= init ========================
+// ========================= init ========================
 var (
 	//args
 	rpcport   int
@@ -57,7 +57,7 @@ var (
 	bootnodes string
 	keyfile   string
 	genKey    string
-	app = cli.NewApp()
+	app       = cli.NewApp()
 )
 
 type conf struct {
@@ -65,10 +65,10 @@ type conf struct {
 }
 
 type gdcrmConf struct {
-	Nodekey string
+	Nodekey   string
 	Bootnodes string
-	Port int
-	Rpcport int
+	Port      int
+	Rpcport   int
 }
 
 var count int = 0
@@ -184,4 +184,3 @@ func startP2pNode(c *cli.Context) error {
 	}()
 	return nil
 }
-

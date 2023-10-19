@@ -1,15 +1,15 @@
 package history
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/v1/chain"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/v1/chain"
 )
 
 type GetTransactionRequest struct {
 	TransactionId string `json:"id"`
 }
 
-//type GetTransactionResult = chain.Transaction
+// type GetTransactionResult = chain.Transaction
 type GetTransactionResult = chain.TransactionExtension
 
 func (it *Instance) GetTransaction(transactionId string) (*GetTransactionResult, *client.ApiError) {

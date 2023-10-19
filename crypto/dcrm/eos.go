@@ -7,25 +7,28 @@ import (
 	"sort"
 	"strings"
 	"time"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/config"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/eos"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/rpcutils"
+
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/eos"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/rpcutils"
+
 	//"github.com/syndtr/goleveldb/leveldb"
-	"github.com/fsn-dev/dcrm-walletService/ethdb"
-	"github.com/astaxie/beego/logs"
-	"fmt"
 	"bytes"
+	"fmt"
 	"sync"
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/dev"
+
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/dev"
+	"github.com/EricBui0512/dcrm-walletService/ethdb"
+	"github.com/astaxie/beego/logs"
 )
 
 var (
-    lock sync.Mutex
+	lock sync.Mutex
 )
 
 func CreateRealEosAccount(accountName string, ownerkey string, activekey string) error {
-	fmt.Println("==========create eos account Start!!,account name = %s,ownerkey = %s,activekey = %s, ==============",accountName,ownerkey,activekey)
+	fmt.Println("==========create eos account Start!!,account name = %s,ownerkey = %s,activekey = %s, ==============", accountName, ownerkey, activekey)
 	av := cryptocoins.NewAddressValidator("EOS_NORMAL")
 	if !av.IsValidAddress(accountName) {
 		return errors.New("eos account name format error")
@@ -33,34 +36,35 @@ func CreateRealEosAccount(accountName string, ownerkey string, activekey string)
 	owner, e1 := eos.HexToPubKey(ownerkey)
 	active, e2 := eos.HexToPubKey(activekey)
 	if e1 != nil || e2 != nil {
-		fmt.Println("==========create eos account ==========,ownerkey error = %+v,active error = %+v",e1,e2)
+		fmt.Println("==========create eos account ==========,ownerkey error = %+v,active error = %+v", e1, e2)
 		return errors.New("cannot convert to eos pubkey format.")
 	}
-	fmt.Println("==========create eos account,owner = %s,active = %s,==============",owner,active)
-///*
-	ojbk, err := eos.CreateNewAccount(eos.CREATOR_ACCOUNT,eos.CREATOR_PRIVKEY,accountName,owner.String(),active.String(),eos.InitialRam)
+	fmt.Println("==========create eos account,owner = %s,active = %s,==============", owner, active)
+	///*
+	ojbk, err := eos.CreateNewAccount(eos.CREATOR_ACCOUNT, eos.CREATOR_PRIVKEY, accountName, owner.String(), active.String(), eos.InitialRam)
 	if ojbk == false || err != nil {
-		fmt.Println("create eos account failed,error = %+v",err)
+		fmt.Println("create eos account failed,error = %+v", err)
 		return errors.New("create eos account failed")
 	}
-	ojbk2, err := eos.DelegateBW(eos.CREATOR_ACCOUNT,eos.CREATOR_PRIVKEY,accountName,eos.InitialCPU,eos.InitialStakeNet,true)
+	ojbk2, err := eos.DelegateBW(eos.CREATOR_ACCOUNT, eos.CREATOR_PRIVKEY, accountName, eos.InitialCPU, eos.InitialStakeNet, true)
 	if ojbk2 == false || err != nil {
-		fmt.Println("delegate cpu and net failed,error = %+v",err)
+		fmt.Println("delegate cpu and net failed,error = %+v", err)
 		return errors.New("delegate cpu and net failed")
 	}
 
 	return err
-//*/
-//	return nil
+	// */
+	//
+	//	return nil
 }
 
 var trytimes = 50
 
 func CheckRealEosAccount(accountName, ownerkey, activekey string) (ok bool) {
 	ok = false
-	defer func () {
+	defer func() {
 		if r := recover(); r != nil {
-			logs.Debug("check eos account","error",r)
+			logs.Debug("check eos account", "error", r)
 		}
 	}()
 	logs.Debug("==========check eos account Start!!==========")
@@ -72,11 +76,11 @@ func CheckRealEosAccount(accountName, ownerkey, activekey string) (ok bool) {
 	var err error
 	for i := 0; i < trytimes; i++ {
 		ret = rpcutils.DoCurlRequest(config.ApiGateways.EosGateway.Nodeos, api, data)
-		logs.Debug("========check eos account========","ret",ret)
+		logs.Debug("========check eos account========", "ret", ret)
 		err = json.Unmarshal([]byte(ret), info)
 		if err != nil {
-			logs.Debug("========check eos account========","decode error",err)
-			time.Sleep(time.Duration(1)*time.Second)
+			logs.Debug("========check eos account========", "decode error", err)
+			time.Sleep(time.Duration(1) * time.Second)
 			continue
 		}
 		break
@@ -93,34 +97,34 @@ func CheckRealEosAccount(accountName, ownerkey, activekey string) (ok bool) {
 	// 3. check active key
 	// 4. check no other keys authorized
 
-	owner, e1 := eos.HexToPubKey(ownerkey)  //EOS8JXJf7nuBEs8dZ8Pc5NpS8BJJLt6bMAmthWHE8CSqzX4VEFKtq
+	owner, e1 := eos.HexToPubKey(ownerkey) //EOS8JXJf7nuBEs8dZ8Pc5NpS8BJJLt6bMAmthWHE8CSqzX4VEFKtq
 	active, e2 := eos.HexToPubKey(activekey)
 	if e1 != nil || e2 != nil {
-		logs.Debug("public key error","owner key error", e1, "active key error", e2)
+		logs.Debug("public key error", "owner key error", e1, "active key error", e2)
 		return false
 	}
 
 	perm := info.Perms
 	objPerm := Permissions([]Permission{
-		Permission{PermName:"owner",Parent:"",RequiredAuth:Auth{Threshold:1,Keys:[]Key{Key{Key:owner.String(),Weight:1}}}},
-		Permission{PermName:"active",Parent:"owner",RequiredAuth:Auth{Threshold:1,Keys:[]Key{Key{Key:active.String(),Weight:1}}}},
+		Permission{PermName: "owner", Parent: "", RequiredAuth: Auth{Threshold: 1, Keys: []Key{Key{Key: owner.String(), Weight: 1}}}},
+		Permission{PermName: "active", Parent: "owner", RequiredAuth: Auth{Threshold: 1, Keys: []Key{Key{Key: active.String(), Weight: 1}}}},
 	})
 	sort.Sort(objPerm)
 	sort.Sort(perm)
 	if reflect.DeepEqual(perm, objPerm) == false {
-		logs.Debug("account permissions not match","have",perm,"required",objPerm)
+		logs.Debug("account permissions not match", "have", perm, "required", objPerm)
 		return false
 	}
 	// 5. enough ram cpu net
-	if info.RamQuato - info.RamUsage < eos.InitialRam / 2 {
+	if info.RamQuato-info.RamUsage < eos.InitialRam/2 {
 		logs.Debug("account ram is too low")
 		return false
 	}
-	if int64(info.CpuLimit.Max) < eos.InitialCPU * 5 {
+	if int64(info.CpuLimit.Max) < eos.InitialCPU*5 {
 		logs.Debug("account cpu is too low")
 		return false
 	}
-	if int64(info.NetLimit.Max) < eos.InitialStakeNet * 5 {
+	if int64(info.NetLimit.Max) < eos.InitialStakeNet*5 {
 		logs.Debug("account net bandwidth is too low")
 		return false
 	}
@@ -166,8 +170,8 @@ type Permission struct {
 }
 
 type Auth struct {
-	Threshold int    `json:"threshold"`
-	Keys       []Key `json:"keys"`
+	Threshold int   `json:"threshold"`
+	Keys      []Key `json:"keys"`
 }
 
 type Key struct {
@@ -184,36 +188,36 @@ type Limit struct {
 func GetEosAccount() (acct, owner, active string) {
 	lock.Lock()
 	dir := dev.GetEosDbDir()
-	db,err := ethdb.NewLDBDatabase(dir, 0, 0)
+	db, err := ethdb.NewLDBDatabase(dir, 0, 0)
 	if err != nil {
 		logs.Debug("==============open db fail.============")
 		lock.Unlock()
 		return "", "", ""
 	}
-	
+
 	var data string
-	var b bytes.Buffer 
-	b.WriteString("") 
-	b.WriteByte(0) 
-	b.WriteString("") 
+	var b bytes.Buffer
+	b.WriteString("")
+	b.WriteByte(0)
+	b.WriteString("")
 	iter := db.NewIterator()
-	for iter.Next() { 
-	    key := string(iter.Key())
-	    value := string(iter.Value())
-	    if strings.EqualFold(key,string([]byte("eossettings"))) {
-		data = value
-		break
-	    }
+	for iter.Next() {
+		key := string(iter.Key())
+		value := string(iter.Value())
+		if strings.EqualFold(key, string([]byte("eossettings"))) {
+			data = value
+			break
+		}
 	}
 	iter.Release()
 	if data == "" {
-	    fmt.Println("===============GetEosAccount,get data fail.==================")
-	    db.Close()
-	    lock.Unlock()
-	    return "","","" 
+		fmt.Println("===============GetEosAccount,get data fail.==================")
+		db.Close()
+		lock.Unlock()
+		return "", "", ""
 	}
-	
-	datas := strings.Split(string(data),":")
+
+	datas := strings.Split(string(data), ":")
 	if len(datas) == 5 && datas[0] == "EOS_INITIATE" {
 		db.Close()
 		lock.Unlock()
@@ -223,4 +227,3 @@ func GetEosAccount() (acct, owner, active string) {
 	lock.Unlock()
 	return "", "", ""
 }
-

@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -19,16 +19,17 @@ package layer2
 import (
 	"context"
 	"errors"
+
 	//"math"
+	"fmt"
 	"net"
 	"sort"
 	"time"
-	"fmt"
 
-	"github.com/fsn-dev/dcrm-walletService/crypto"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/EricBui0512/dcrm-walletService/crypto"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 )
 
 // txs start
@@ -140,7 +141,7 @@ func DcrmNew(cfg *Config) *Dcrm {
 	return dcrm
 }
 
-//TODO callback
+// TODO callback
 func recvPrivkeyInfo(msg interface{}) {
 	fmt.Printf("==== recvPrivkeyInfo() ====\n")
 	fmt.Println("recvprikey,msg = ", msg)
@@ -183,9 +184,7 @@ func RegisterUpdateOrderCacheCallback(recvDcrmFunc func(interface{})) {
 	discover.RegisterUpdateOrderCacheCallback(recvDcrmFunc)
 }
 
-
-
-//=============================== DCRM =================================
+// =============================== DCRM =================================
 func SendMsg(msg string) {
 	//BroadcastToGroup(discover.NodeID{}, msg, DcrmProtocol_type)
 	DcrmProtocol_broadcastInGroupOthers(msg)
@@ -225,7 +224,7 @@ func ParseNodeID(enode string) string {
 	return node.ID.String()
 }
 
-//================   API   SDK    =====================
+// ================   API   SDK    =====================
 func SdkProtocol_sendToGroupOneNode(gID, msg string) (string, error) {
 	gid, _ := discover.HexID(gID)
 	if checkExistGroup(gid) == false {
@@ -299,15 +298,18 @@ func checkExistGroup(gid discover.NodeID) bool {
 	return false
 }
 
-//  ---------------------   API  callback   ----------------------
+//	---------------------   API  callback   ----------------------
+//
 // recv from broadcastInGroup...
 func SdkProtocol_registerBroadcastInGroupCallback(recvSdkFunc func(interface{}, string)) {
 	Sdk_callback = recvSdkFunc
 }
+
 // recv from sendToGroup...
 func SdkProtocol_registerSendToGroupCallback(sdkcallback func(interface{}, string) <-chan string) {
 	discover.RegisterSdkMsgCallback(sdkcallback)
 }
+
 // recv return from sendToGroup...
 func SdkProtocol_registerSendToGroupReturnCallback(sdkcallback func(interface{}, string)) {
 	discover.RegisterSdkMsgRetCallback(sdkcallback)
@@ -403,4 +405,3 @@ func CheckAddPeer(enodes []string) error {
 	}
 	return nil
 }
-

@@ -7,20 +7,21 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
  */
 
-package ec2 
+package ec2
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/internal/common/math/random"
-	s256 "github.com/fsn-dev/dcrm-walletService/crypto/secp256k1"
-	"github.com/fsn-dev/dcrm-walletService/crypto/sha3"
 	"math/big"
+
+	s256 "github.com/EricBui0512/dcrm-walletService/crypto/secp256k1"
+	"github.com/EricBui0512/dcrm-walletService/crypto/sha3"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/math/random"
 )
 
 type MtAZK1Proof struct {
@@ -32,7 +33,7 @@ type MtAZK1Proof struct {
 	S2 *big.Int
 }
 
-//func MtAZK1Prove(m *big.Int, r *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) *MtAZK1Proof {
+// func MtAZK1Prove(m *big.Int, r *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) *MtAZK1Proof {
 func MtAZK1Prove(m *big.Int, r *big.Int, publicKey *PublicKey, zkFactProof *ZkFactProof) *MtAZK1Proof {
 	N3Ntilde := new(big.Int).Mul(s256.S256().N3(), zkFactProof.N)
 	NNtilde := new(big.Int).Mul(s256.S256().N, zkFactProof.N)
@@ -75,7 +76,7 @@ func MtAZK1Prove(m *big.Int, r *big.Int, publicKey *PublicKey, zkFactProof *ZkFa
 	return mtAZK1Proof
 }
 
-//func (mtAZK1Proof *MtAZK1Proof) MtAZK1Verify(c *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) bool {
+// func (mtAZK1Proof *MtAZK1Proof) MtAZK1Verify(c *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) bool {
 func (mtAZK1Proof *MtAZK1Proof) MtAZK1Verify(c *big.Int, publicKey *PublicKey, zkFactProof *ZkFactProof) bool {
 	if mtAZK1Proof.S1.Cmp(s256.S256().N3()) >= 0 {
 		return false

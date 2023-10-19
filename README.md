@@ -3,7 +3,7 @@ mkdir -p $GOPATH/src/github.com/fsn-dev
 
 cd $GOPATH/src/github.com/fsn-dev
 
-git clone https://github.com/fsn-dev/dcrm-walletService 
+git clone https://github.com/EricBui0512/dcrm-walletService 
 
 cd dcrm-walletService
 

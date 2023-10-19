@@ -1,6 +1,6 @@
 package evt_link
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
 
 type GetTrxIdForLinkIdRequest struct {
 	LinkId string `json:"link_id"`
@@ -14,7 +14,7 @@ type GetTrxIdForLinkIdResult struct {
 func (it *Instance) GetTrxIdForLinkId(linkId string) (*GetTrxIdForLinkIdResult, *client.ApiError) {
 	response := &GetTrxIdForLinkIdResult{}
 
-	err := it.client.Post(it.Path("get_trx_id_for_link_id"), &GetTrxIdForLinkIdRequest{linkId},response)
+	err := it.client.Post(it.Path("get_trx_id_for_link_id"), &GetTrxIdForLinkIdRequest{linkId}, response)
 
 	if err != nil {
 		return nil, err

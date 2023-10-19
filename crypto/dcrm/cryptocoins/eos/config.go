@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -15,20 +15,21 @@
  */
 
 package eos
+
 import (
 	eos "github.com/eoscanada/eos-go"
 
-	"github.com/fsn-dev/dcrm-walletService/crypto/dcrm/cryptocoins/config"
+	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
 )
 
 func EOSConfigInit() {
 	nodeos = config.ApiGateways.EosGateway.Nodeos
 	opts = &eos.TxOptions{
-		ChainID: hexToChecksum256(config.ApiGateways.EosGateway.ChainID),
+		ChainID:          hexToChecksum256(config.ApiGateways.EosGateway.ChainID),
 		MaxNetUsageWords: uint32(999),
 		//DelaySecs: uint32(120),
 		MaxCPUUsageMS: uint8(200),
-		Compress: eos.CompressionNone,
+		Compress:      eos.CompressionNone,
 	}
 	BALANCE_SERVER = config.ApiGateways.EosGateway.BalanceTracker
 }
@@ -63,7 +64,3 @@ var InitialRam = uint32(5000)
 var InitialCPU = int64(1000)
 
 var InitialStakeNet = int64(1000)
-
-
-
-

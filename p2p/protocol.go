@@ -19,7 +19,7 @@ package p2p
 import (
 	"fmt"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
 )
 
 // Protocol represents a P2P subprotocol implementation.

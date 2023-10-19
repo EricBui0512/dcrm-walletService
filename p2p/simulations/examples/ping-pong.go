@@ -25,12 +25,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/fsn-dev/dcrm-walletService/node"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
-	"github.com/fsn-dev/dcrm-walletService/p2p/simulations"
-	"github.com/fsn-dev/dcrm-walletService/p2p/simulations/adapters"
-	"github.com/fsn-dev/dcrm-walletService/rpc"
+	"github.com/EricBui0512/dcrm-walletService/node"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
+	"github.com/EricBui0512/dcrm-walletService/p2p/simulations"
+	"github.com/EricBui0512/dcrm-walletService/p2p/simulations/adapters"
+	"github.com/EricBui0512/dcrm-walletService/rpc"
 )
 
 var adapterType = flag.String("adapter", "sim", `node adapter to use (one of "sim", "exec" or "docker")`)
@@ -91,7 +91,7 @@ type pingPongService struct {
 
 func newPingPongService(id discover.NodeID) *pingPongService {
 	return &pingPongService{
-		id:  id,
+		id: id,
 	}
 }
 

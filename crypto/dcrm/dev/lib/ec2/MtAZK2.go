@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -17,10 +17,11 @@
 package ec2
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/internal/common/math/random"
-	s256 "github.com/fsn-dev/dcrm-walletService/crypto/secp256k1"
-	"github.com/fsn-dev/dcrm-walletService/crypto/sha3"
 	"math/big"
+
+	s256 "github.com/EricBui0512/dcrm-walletService/crypto/secp256k1"
+	"github.com/EricBui0512/dcrm-walletService/crypto/sha3"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/math/random"
 )
 
 type MtAZK2Proof struct {
@@ -36,7 +37,7 @@ type MtAZK2Proof struct {
 	T2   *big.Int
 }
 
-//func MtAZK2Prove(x *big.Int, y *big.Int, r *big.Int, c1 *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) *MtAZK2Proof {
+// func MtAZK2Prove(x *big.Int, y *big.Int, r *big.Int, c1 *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) *MtAZK2Proof {
 func MtAZK2Prove(x *big.Int, y *big.Int, r *big.Int, c1 *big.Int, publicKey *PublicKey, zkFactProof *ZkFactProof) *MtAZK2Proof {
 	q3Ntilde := new(big.Int).Mul(s256.S256().N3(), zkFactProof.N)
 	qNtilde := new(big.Int).Mul(s256.S256().N, zkFactProof.N)
@@ -101,10 +102,10 @@ func MtAZK2Prove(x *big.Int, y *big.Int, r *big.Int, c1 *big.Int, publicKey *Pub
 	return mtAZK2Proof
 }
 
-//func (mtAZK2Proof *MtAZK2Proof) MtAZK2Verify(c1 *big.Int, c2 *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) bool {
+// func (mtAZK2Proof *MtAZK2Proof) MtAZK2Verify(c1 *big.Int, c2 *big.Int, publicKey *paillier.PublicKey, zkFactProof *paillier.ZkFactProof) bool {
 func (mtAZK2Proof *MtAZK2Proof) MtAZK2Verify(c1 *big.Int, c2 *big.Int, publicKey *PublicKey, zkFactProof *ZkFactProof) bool {
-    if mtAZK2Proof.S1 == nil || s256.S256().N3() == nil { //bug:lockin/lockout fail will crash
-	    return false
+	if mtAZK2Proof.S1 == nil || s256.S256().N3() == nil { //bug:lockin/lockout fail will crash
+		return false
 	}
 
 	if mtAZK2Proof.S1.Cmp(s256.S256().N3()) >= 0 {

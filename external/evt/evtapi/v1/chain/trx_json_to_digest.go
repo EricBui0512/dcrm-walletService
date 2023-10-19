@@ -1,14 +1,14 @@
 package chain
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evttypes"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evttypes"
 )
 
 type TRXJsonToDigestRequest = evttypes.TRXJson
 
 type TRXJsonToDigestResult struct {
-        Id string `json:"id"`
+	Id     string `json:"id"`
 	Digest string `json:"digest"`
 }
 

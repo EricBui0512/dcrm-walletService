@@ -1,8 +1,8 @@
 package evt
 
 import (
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtapi"
-	"github.com/fsn-dev/dcrm-walletService/external/evt/evtconfig"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtapi"
+	"github.com/EricBui0512/dcrm-walletService/external/evt/evtconfig"
 	"github.com/sirupsen/logrus"
 )
 

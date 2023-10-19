@@ -7,7 +7,7 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
@@ -21,19 +21,19 @@ import (
 	"sync"
 	"sync/atomic"
 
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
 	mapset "github.com/deckarep/golang-set"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/discover"
 )
 
-//TODO
+// TODO
 const (
 	DcrmProtocol_type = discover.Dcrmprotocol_type
-	Xprotocol_type   = discover.Xprotocol_type
-	Sdkprotocol_type   = discover.Sdkprotocol_type
-	ProtocolName     = "dcrm"
-	Xp_ProtocolName  = "xp"
-	peerMsgCode      = iota
+	Xprotocol_type    = discover.Xprotocol_type
+	Sdkprotocol_type  = discover.Sdkprotocol_type
+	ProtocolName      = "dcrm"
+	Xp_ProtocolName   = "xp"
+	peerMsgCode       = iota
 	Dcrm_msgCode
 	Sdk_msgCode
 	Xp_msgCode
@@ -49,17 +49,17 @@ const (
 )
 
 var (
-	p2pServer p2p.Server
-	bootNodeIP *net.UDPAddr
-	callback   func(interface{}, string)
-	Dcrm_callback   func(interface{}) <-chan string
-	Sdk_callback   func(interface{}, string)
+	p2pServer     p2p.Server
+	bootNodeIP    *net.UDPAddr
+	callback      func(interface{}, string)
+	Dcrm_callback func(interface{}) <-chan string
+	Sdk_callback  func(interface{}, string)
 	Xp_callback   func(interface{})
-	emitter    *Emitter
-	dccpGroup  *discover.Group
-	xpGroup    *discover.Group
-	selfid     discover.NodeID
-	SdkGroup   map[discover.NodeID]*discover.Group = make(map[discover.NodeID]*discover.Group)
+	emitter       *Emitter
+	dccpGroup     *discover.Group
+	xpGroup       *discover.Group
+	selfid        discover.NodeID
+	SdkGroup      map[discover.NodeID]*discover.Group = make(map[discover.NodeID]*discover.Group)
 )
 
 type Dcrm struct {
@@ -124,4 +124,3 @@ type Transaction struct {
 	Payload []byte
 	Hash    atomic.Value
 }
-

@@ -24,12 +24,10 @@ devp2p subprotocols by abstracting away code standardly shared by protocols.
 * standardise error handling related to communication
 * standardised	handshake negotiation
 * TODO: automatic generation of wire protocol specification for peers
-
 */
 package protocols
 
 import (
-	"bufio"
 	"bytes"
 	"context"
 	"fmt"
@@ -38,12 +36,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/fsn-dev/dcrm-walletService/p2p/metrics"
-	"github.com/fsn-dev/dcrm-walletService/p2p"
-	"github.com/fsn-dev/dcrm-walletService/p2p/rlp"
-	//"github.com/fsn-dev/dcrm-walletService/swarm/spancontext"
-	//"github.com/fsn-dev/dcrm-walletService/swarm/tracing"
-	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/EricBui0512/dcrm-walletService/p2p"
+	"github.com/EricBui0512/dcrm-walletService/p2p/metrics"
+	"github.com/EricBui0512/dcrm-walletService/p2p/rlp"
+	//"github.com/EricBui0512/dcrm-walletService/swarm/spancontext"
+	//"github.com/EricBui0512/dcrm-walletService/swarm/tracing"
 )
 
 // error codes used by this  protocol scheme
@@ -74,11 +71,11 @@ var errorToString = map[int]string{
 Error implements the standard go error interface.
 Use:
 
-  errorf(code, format, params ...interface{})
+	errorf(code, format, params ...interface{})
 
 Prints as:
 
- <description>: <details>
+	<description>: <details>
 
 where description is given by code in errorToString
 and details is fmt.Sprintf(format, params...)
@@ -242,26 +239,26 @@ func (p *Peer) Send(ctx context.Context, msg interface{}) error {
 	metrics.GetOrRegisterCounter("peer.send", nil).Inc(1)
 
 	var b bytes.Buffer
-/*	if tracing.Enabled {
-		writer := bufio.NewWriter(&b)
+	/*	if tracing.Enabled {
+			writer := bufio.NewWriter(&b)
 
-		tracer := opentracing.GlobalTracer()
+			tracer := opentracing.GlobalTracer()
 
-		sctx := spancontext.FromContext(ctx)
+			sctx := spancontext.FromContext(ctx)
 
-		if sctx != nil {
-			err := tracer.Inject(
-				sctx,
-				opentracing.Binary,
-				writer)
-			if err != nil {
-				return err
+			if sctx != nil {
+				err := tracer.Inject(
+					sctx,
+					opentracing.Binary,
+					writer)
+				if err != nil {
+					return err
+				}
 			}
-		}
 
-		writer.Flush()
-	}
-*/
+			writer.Flush()
+		}
+	*/
 	r, err := rlp.EncodeToBytes(msg)
 	if err != nil {
 		return err
@@ -312,21 +309,21 @@ func (p *Peer) handleIncoming(handle func(ctx context.Context, msg interface{}) 
 
 	// if tracing is enabled and the context coming within the request is
 	// not empty, try to unmarshal it
-/*	if tracing.Enabled && len(wmsg.Context) > 0 {
-		var sctx opentracing.SpanContext
+	/*	if tracing.Enabled && len(wmsg.Context) > 0 {
+			var sctx opentracing.SpanContext
 
-		tracer := opentracing.GlobalTracer()
-		sctx, err = tracer.Extract(
-			opentracing.Binary,
-			bytes.NewReader(wmsg.Context))
-		if err != nil {
-			fmt.Errorf(err.Error())
-			return err
+			tracer := opentracing.GlobalTracer()
+			sctx, err = tracer.Extract(
+				opentracing.Binary,
+				bytes.NewReader(wmsg.Context))
+			if err != nil {
+				fmt.Errorf(err.Error())
+				return err
+			}
+
+			ctx = spancontext.WithContext(ctx, sctx)
 		}
-
-		ctx = spancontext.WithContext(ctx, sctx)
-	}
-*/
+	*/
 	val, ok := p.spec.NewMsg(msg.Code)
 	if !ok {
 		return errorf(ErrInvalidMsgCode, "%v", msg.Code)
@@ -348,9 +345,10 @@ func (p *Peer) handleIncoming(handle func(ctx context.Context, msg interface{}) 
 
 // Handshake negotiates a handshake on the peer connection
 // * arguments
-//   * context
-//   * the local handshake to be sent to the remote peer
-//   * funcion to be called on the remote handshake (can be nil)
+//   - context
+//   - the local handshake to be sent to the remote peer
+//   - funcion to be called on the remote handshake (can be nil)
+//
 // * expects a remote handshake back of the same type
 // * the dialing peer needs to send the handshake first and then waits for remote
 // * the listening peer waits for the remote handshake and then sends it

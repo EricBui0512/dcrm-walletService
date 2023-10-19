@@ -1,6 +1,6 @@
 package chain
 
-import "github.com/fsn-dev/dcrm-walletService/external/evt/evtapi/client"
+import "github.com/EricBui0512/dcrm-walletService/external/evt/evtapi/client"
 
 type GetBlockRequest struct {
 	BlockNumOrID string `json:"block_num_or_id"`
@@ -56,11 +56,11 @@ type Action struct {
 }
 
 type Data struct {
-	From string `json:"from,omitempty"`
-	To string `json:"to,omitempty"`
-	Number string `json:"number,omitempty"`
+	From    string `json:"from,omitempty"`
+	To      string `json:"to,omitempty"`
+	Number  string `json:"number,omitempty"`
 	Address string `json:"address,omitempty"`
-	Link Link `json:"link"`
+	Link    Link   `json:"link"`
 }
 
 type Link struct {

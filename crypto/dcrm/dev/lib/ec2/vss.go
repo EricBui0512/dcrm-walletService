@@ -7,23 +7,24 @@
  *
  *  This library is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  *
  */
 
-package ec2 
+package ec2
 
 import (
 	"errors"
-	"github.com/fsn-dev/dcrm-walletService/internal/common/math/random"
-	s256 "github.com/fsn-dev/dcrm-walletService/crypto/secp256k1"
 	"math/big"
+
+	s256 "github.com/EricBui0512/dcrm-walletService/crypto/secp256k1"
+	"github.com/EricBui0512/dcrm-walletService/internal/common/math/random"
 )
 
-//var ErrShareNotPass = errors.New("[ERROR]: the set of shares contain invalid share.")
+// var ErrShareNotPass = errors.New("[ERROR]: the set of shares contain invalid share.")
 var ErrIdNoEqualN = errors.New("[ERROR]: the length of input ids is not equal to the share number n.")
 var ErrShareNotEnough = errors.New("[ERROR]: the shares is not enough to satisfy the threshold.")
 
@@ -45,11 +46,11 @@ type ShareStruct struct {
 }
 
 func GetSharesId(ss *ShareStruct) *big.Int {
-    if ss != nil {
-	return ss.Id
-    }
+	if ss != nil {
+		return ss.Id
+	}
 
-    return nil 
+	return nil
 }
 
 func Vss(secret *big.Int, ids []*big.Int, t int, n int) (*PolyGStruct, *PolyStruct, []*ShareStruct, error) {

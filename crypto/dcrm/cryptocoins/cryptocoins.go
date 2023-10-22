@@ -21,8 +21,6 @@ import (
 	"strings"
 
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/types"
-
-	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/atom"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/bch"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/bnb"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/btc"

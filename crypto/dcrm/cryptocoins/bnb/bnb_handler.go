@@ -30,10 +30,10 @@ import (
 	bnbtypes "github.com/bnb-chain/go-sdk/types"
 	"github.com/bnb-chain/go-sdk/types/msg"
 	"github.com/bnb-chain/go-sdk/types/tx"
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcutil"
-	"github.com/tendermint/tendermint/crypto/secp256k1"
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcutil"
 	"github.com/tendermint/tendermint/crypto"
+	"github.com/tendermint/tendermint/crypto/secp256k1"
 )
 
 var Network string = "testnet"

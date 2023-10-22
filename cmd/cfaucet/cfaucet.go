@@ -17,8 +17,8 @@ import (
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/trx"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/xrp"
 	"github.com/bnb-chain/go-sdk/keys"
-	"github.com/btcsuite/btcd/btcec"
-	"github.com/btcsuite/btcutil"
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcutil"
 )
 
 func init() {

@@ -26,9 +26,9 @@ import (
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/btc"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/types"
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btcsuite/btcd/btcec/v2"
+	"github.com/btcsuite/btcd/btcutil"
 	"github.com/btcsuite/btcd/chaincfg"
-	"github.com/btcsuite/btcutil"
 	addrconv "github.com/schancel/cashaddr-converter/address"
 )
 

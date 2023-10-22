@@ -29,7 +29,7 @@ import (
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/config"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/eos"
 	"github.com/EricBui0512/dcrm-walletService/crypto/dcrm/cryptocoins/types"
-	"github.com/btcsuite/btcd/btcec"
+	"github.com/btcsuite/btcd/btcec/v2"
 
 	//"github.com/ellsol/evt/ecc"
 	//"github.com/ellsol/evt/evtapi/client"

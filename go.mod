@@ -27,12 +27,6 @@ require (
 	github.com/ipfs/go-log v1.0.5
 	github.com/jackpal/go-nat-pmp v1.0.2
 	github.com/julienschmidt/httprouter v1.3.0
-	
-	github.com/libp2p/go-libp2p-crypto v0.1.0
-	github.com/libp2p/go-libp2p-host v0.1.0
-	github.com/libp2p/go-libp2p-net v0.1.0
-	github.com/libp2p/go-libp2p-peer v0.2.0
-	github.com/libp2p/go-libp2p-peerstore v0.8.0
 	github.com/multiformats/go-multiaddr v0.12.0
 	github.com/rs/cors v1.8.2
 	github.com/rubblelabs/ripple v0.0.0-20230908201244-7f73b1fe5e22

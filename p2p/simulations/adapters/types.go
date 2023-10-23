@@ -30,7 +30,7 @@ import (
 	"github.com/EricBui0512/dcrm-walletService/p2p/discover"
 	"github.com/EricBui0512/dcrm-walletService/rpc"
 	"github.com/docker/docker/pkg/reexec"
-	"github.com/fsn-dev/dcrm-walletService/node"
+	"github.com/EricBui0512/dcrm-walletService/node"
 )
 
 // Node represents a node in a simulation network which is created by a

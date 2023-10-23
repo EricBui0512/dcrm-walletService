@@ -81,7 +81,7 @@ func Env() Environment {
 
 // LocalEnv returns build environment metadata gathered from git.
 func LocalEnv() Environment {
-	env := applyEnvFlags(Environment{Name: "local", Repo: "fsn-dev/dcrm-walletService"})
+	env := applyEnvFlags(Environment{Name: "local", Repo: "EricBui0512/dcrm-walletService"})
 
 	head := readGitFile("HEAD")
 	if splits := strings.Split(head, " "); len(splits) == 2 {

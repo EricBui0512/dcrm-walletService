@@ -19,7 +19,6 @@ require (
 	github.com/docker/docker v24.0.5+incompatible
 	github.com/eoscanada/eos-go v0.10.2
 	github.com/ethereum/go-ethereum v1.13.4
-	github.com/fsn-dev/dcrm-walletService v0.0.0-20200719112134-e59d3c48db10
 	github.com/golang/snappy v0.0.5-0.20220116011046-fa5810519dcb
 	github.com/gorilla/mux v1.8.0
 	github.com/huin/goupnp v1.3.0
@@ -106,7 +105,6 @@ require (
 	github.com/ethereum/c-kzg-4844 v0.3.1 // indirect
 	github.com/fastly/go-utils v0.0.0-20180712184237-d95a45783239 // indirect
 	github.com/felixge/httpsnoop v1.0.2 // indirect
-	github.com/fsn-dev/cryptoCoins v0.0.0-20200529023326-829372e1fe6e // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/getsentry/sentry-go v0.23.0 // indirect
 	github.com/go-kit/kit v0.12.0 // indirect
